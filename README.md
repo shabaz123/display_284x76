@@ -2,11 +2,11 @@
 
 This repository contains KiCad files for an 81 x 29 mm circuit board which contains a 284x76 pixel TFT screen, six buttons and a rotary encoder.
 
-![1.00](front-pcb/tft-render-top.png)
+![1.00](front-pcb/render-top.png)
 
 The interface is via either a 20-pin DIL header, or 20-way 1mm-pitch flat flex cable (FFC), to any microcontroller of choice.
 
-![1.00](front-pcb/tft-render-underside.png)
+![1.00](front-pcb/render-underside.png)
 
 The board requires a 5V supply (4.4V to 5.5V should work) at 20 mA for the backlight driver, and a 3.3V 20mA supply for the TFT driver. All signals (SPI and the PWM input) use 3.3V logic levels.
 
