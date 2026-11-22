@@ -51,7 +51,8 @@ A possible enclosure is Hammond 1593W. See the front-panel folder for a KiCad pr
 
 ![1.00](front-panel/render-top.png)
 
-M2 spacers of height 6 mm should be suitable for attaching to the display board.
+M2 spacers of height 6 mm should be suitable for attaching to the display board. 
+The button holes are 5.2 mm diameter, which is suitable for "A30 button caps" which are 4.6 mm diameter and intended for B3F-1050 tact switches with a 2.4x2.4 mm square actuator. If you're using different buttons or caps, then you'll likely need to modify the holes in the KiCad files.
 
 # Parts List
 
