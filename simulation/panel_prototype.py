@@ -4,6 +4,7 @@
 # Keyboard buttons 1-4: Soft buttons SW1 to SW4
 # Buttons 5,6 or <> or ,. or left-right cursor keys: SW5 and SW6
 # Up/down cursor keys, or mouse scroll wheel (if hovering over the encoder): ROTARY ENCODER
+# Space or Enter, or clicking the encoder knob: SW7 (encoder push switch)
 
 import math
 import tkinter as tk
@@ -105,8 +106,8 @@ class Panel(tk.Tk):
         for name,(shape,x,y,r) in self.controls().items():
             if name=='ENCODER':
                 self.oval(x-r-5,y-r-5,x+r+5,y+r+5,fill='#0b0d10',outline='#4b535c',width=max(1,3*s))
-                self.oval(x-r,y-r,x+r,y+r,fill=('#596d7f' if self.hover==name else '#343941'),outline='#69727c',width=max(1,2*s))
-                self.oval(x-r+12,y-r+12,x+r-12,y+r-12,fill='#292e35',outline='#555d66',width=max(1,s))
+                self.oval(x-r,y-r,x+r,y+r,fill=(BUTTON_DOWN if 'SW7' in self.pressed else ('#596d7f' if self.hover==name else '#343941')),outline='#69727c',width=max(1,2*s))
+                self.oval(x-r+12,y-r+12,x+r-12,y+r-12,fill=('#425b70' if 'SW7' in self.pressed else '#292e35'),outline=('#c4dff3' if 'SW7' in self.pressed else '#555d66'),width=max(1,s))
                 angle=math.radians(self.encoder_angle-90)
                 self.line([x+math.cos(angle)*36,y+math.sin(angle)*36,
                            x+math.cos(angle)*52,y+math.sin(angle)*52],fill='#b2d6ef',width=max(2,5*s),capstyle='round')
@@ -118,6 +119,7 @@ class Panel(tk.Tk):
                 if down:
                     self.oval(x-r+6,y-r+6,x+r-6,y+r-6,outline='#a7d1ef',width=max(1,s))
                 self.text(x,y+51,name,size=12,color=('#d3ebff' if down else MUTED),weight='bold')
+        self.text(880,244,'SWENC' if 'SW7' in self.pressed else 'PUSH: SWENC',size=11,color=('#d3ebff' if 'SW7' in self.pressed else MUTED),weight='bold')
         #  self.text(413,280,'SOFT BUTTONS',size=11,color='#7d8994')
         #  self.text(883,366,'SW5 / SW6',size=11,color='#7d8994')
         self.rect(2,379,W-2,408,fill='#252a31',outline='#3a424b')
@@ -156,13 +158,15 @@ class Panel(tk.Tk):
         name=self.hit(*self.logical(event.x,event.y))
         self.mouse_button=name
         if name=='ENCODER':
-            self.report('ENCODER CLICK (reserved for future use)')
+            self.press('SW7')
         else:
             self.press(name)
 
     def mouse_up(self,event):
-        if self.mouse_button and self.mouse_button!='ENCODER':
-            self.release(self.mouse_button)
+        if self.mouse_button:
+            action = 'SW7' if self.mouse_button=='ENCODER' else self.mouse_button
+            if action not in self.key_held.values():
+                self.release(action)
         self.mouse_button=None
 
     def wheel(self,event):
@@ -180,12 +184,13 @@ class Panel(tk.Tk):
     @staticmethod
     def key_action(event):
         key=event.keysym.lower()
-        if key in ('1','2','3','4','5','6'):
+        if key in ('1','2','3','4','5','6','7'):
             return 'SW'+key
         if key in ('comma','less','left'):
             return 'SW5'
         if key in ('period','greater','right'):
             return 'SW6'
+        if key in ('space','return','kp_enter'): return 'SW7'
         if key=='up': return 'CW'
         if key=='down': return 'CCW'
         return None
@@ -204,7 +209,8 @@ class Panel(tk.Tk):
         action=self.key_held.pop(event.keycode,None)
         if action and action.startswith('SW'):
             # If multiple keys map to one button, keep it pressed until both are released.
-            if action not in self.key_held.values() and self.mouse_button!=action:
+            mouse_action = 'SW7' if self.mouse_button=='ENCODER' else self.mouse_button
+            if action not in self.key_held.values() and mouse_action!=action:
                 self.release(action)
 
 if __name__=='__main__':
