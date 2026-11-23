@@ -75,6 +75,8 @@ The button holes are 5.2 mm diameter, which is suitable for "A30 button caps" wh
 | ENC1    | 1   | ENC12E         | Rotary Encoder                                   |
 | SW1-SW6 | 6   | B3F-1050       | 6x6 B3F or Kailh Mute or E-Switch 5.8x5.8 or 7x7 |
 | LCD1    | 1   | ER-TFT2.25-1   | 76x284 ST7789P3 TFT LCD Screen                   |
+| LCDCONN | 1   | FFC2B16-08-T   | FPC Top Contact SHOU HAN 0.5-8P CTSJ-H2.0 119    | 
+| J1      | 1   | FFC3B11-20-T   | FPC Top Contact GCT 1.0-20P 1mm 20way            | 
 | N/A     | 3   | M2 x 6mm       | Hex Spacer 6mm height and M2 6mm screw           |
 | N/A     | 1   | Adhesive Foam  | 3.6 mm thick foam for LCD                        |
 
